@@ -6,14 +6,27 @@
  */
 package cl.pragma.smallshop.dao.beans.domain;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
 /**
  *
  * @author mberoiza
  */
+@Entity
+@Table(name = "regions")
 public class Region {
+    
     private Integer id;
     private String nombre;
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "region_id", unique = true, nullable = false)
     public Integer getId() {
         return id;
     }
@@ -22,6 +35,7 @@ public class Region {
         this.id = id;
     }
 
+    @Column(name = "region_name")
     public String getNombre() {
         return nombre;
     }

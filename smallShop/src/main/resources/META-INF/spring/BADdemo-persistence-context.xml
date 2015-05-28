@@ -1,0 +1,77 @@
+<beans xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.1.xsd                            http://www.springframework.org/schema/data/jpa http://www.springframework.org/schema/data/jpa/spring-jpa-1.0.xsd">
+    
+    <beans:bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+        <beans:property name="driverClassName" value="${DRIVER_BD}" />
+        <beans:property name="url" value="${URL_BD}" />
+        <beans:property name="username" value="${USUARIO_BD}" />
+        <beans:property name="password" value="${CLAVE_BD}" />
+    </beans:bean>
+    
+    <!--bean id="dataSource" class="cl.pragma.tools.proxool.ProxoolDataSource">
+        <constructor-arg value="${NOMBRE_POOL}"/>
+        <property name="driver" value="${DRIVER_BD}"/>
+        <property name="driverUrl" value="${URL_BD}"/>
+        <property name="user" value="${USUARIO_BD}"/>
+        <property name="password" value="${CLAVE_BD}"/>
+        <property name="houseKeepingTestSql" value="${HOUSE-KEEPING-TEST-SQL}"/>
+        <property name="maximumConnectionCount" value="${MAXIMUM-CONNECTION-COUNT}"/>
+        <property name="minimumConnectionCount" value="${MINIMUM-CONNECTION-COUNT}"/>
+        <property name="simultaneousBuildThrottle" value="${SIMULTANEOUS-BUILD-THROTTLE}"/>
+        <property name="recentlyStartedThreshold" value="${RECENTLY-STARTED-THRESHOLD}"/>
+        <property name="overloadWithoutRefusalLifetime" value="${OVERLOAD-WITHOUT-REFUSAL-LIFETIME}"/>
+        <property name="maximumActiveTime" value="${MAXIMUM-ACTIVE-TIME}"/>
+        <property name="verbose" value="${VERBOSE}"/>
+        <property name="trace" value="${TRACE}"/>
+        <property name="fatalSqlException" value="${FATAL-SQL-EXCEPTION}"/>
+        <property name="prototypeCount" value="${PROTOTYPE-COUNT}"/>
+        <property name="houseKeepingSleepTime" value="${HOUSE-KEEPING-SLEEP-TIME}"/>
+        <property name="maximumConnectionLifetime" value="${MAXIMUM-CONNECTION-LIFETIME}"/>
+    </bean-->
+    
+    <bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
+        <property name="entityManagerFactory" ref="emf"/>
+    </bean>
+    
+    <bean id="emf" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+        <property name="dataSource" ref="dataSource"/>
+        <property name="jpaVendorAdapter">
+            <bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter"/>
+        </property>
+        
+        <!--property name="packagesToScan" value="cl.falabella.cmc.beans.domain"/ -->
+        <property name="jpaProperties">
+            <props>
+                <prop key="hibernate.dialect">${DIALECT}</prop>
+                <prop key="hibernate.max_fetch_depth">${MAX_FETCH_DEPTH}</prop>
+                <prop key="hibernate.jdbc.fetch_size">${FETCH_SIZE}</prop>
+                <prop key="hibernate.jdbc.batch_size">${BATCH_SIZE}</prop>
+                <prop key="hibernate.show_sql">${SHOW_SQL}</prop>
+                <prop key="hibernate.hbm2ddl.auto">${HBM2DDL_AUTO}</prop>
+            </props>
+        </property>
+    </bean>
+    
+    <!--   Repositorios   -->
+    <bean id="messageInRepositoryImpl" class="cl.falabella.cmc.repository.custom.impl.MessageInRepositoryImpl">
+        <constructor-arg ref="dataSource"/>
+    </bean>
+    <bean id="messageOutRepositoryImpl" class="cl.falabella.cmc.repository.custom.impl.MessageOutRepositoryImpl">
+        <constructor-arg ref="dataSource"/>
+    </bean>
+    <jpa:repositories base-package="cl.falabella.cmc.repository" entity-manager-factory-ref="emf" transaction-manager-ref="transactionManager">
+        <jpa:repository id="messageInRepository" custom-impl-ref="messageInRepositoryImpl"/>
+        <jpa:repository id="messageOutRepository" custom-impl-ref="messageOutRepositoryImpl"/>
+        <jpa:repository id="assignmentRepository"/>
+        <jpa:repository id="idSupplierRepository"/>
+        <jpa:repository id="billingRepository"/>
+        <jpa:repository id="containerHistRepository"/>
+        <jpa:repository id="paramRepository"/>
+        <jpa:repository id="containerRepository"/>
+        <jpa:repository id="serviceRepository"/>
+        <jpa:repository id="customsRepository"/>
+        <jpa:repository id="supplierRepository"/>
+        <jpa:repository id="vehicleRepository"/>
+        <jpa:repository id="emailRepository"/>
+        <jpa:repository id="rateRepository"/>
+    </jpa:repositories>
+</beans>

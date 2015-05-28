@@ -26,13 +26,13 @@ public class RegionServiceImpl implements RegionService{
     
     @Override
     @Transactional
-    public void addPerson(Region r) {
+    public void addRegion(Region r) {
         this.regionDAO.addRegion(r);
     }
 
     @Override
     @Transactional
-    public void updatePerson(Region r) {
+    public void updateRegion(Region r) {
         this.regionDAO.updateRegion(r);
     }
 

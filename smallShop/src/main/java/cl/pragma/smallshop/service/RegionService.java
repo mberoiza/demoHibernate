@@ -15,8 +15,8 @@ import java.util.List;
  */
 public interface RegionService {
     
-    public void addPerson(Region r);
-    public void updatePerson(Region r);
+    public void addRegion(Region r);
+    public void updateRegion(Region r);
     public List<Region> listRegiones();
     public Region getRegion(Integer id);
     public void removeRegion(Integer id);
