@@ -1,82 +1,109 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<beans:beans xmlns="http://www.springframework.org/schema/mvc"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:beans="http://www.springframework.org/schema/beans"
+<beans xmlns:mvc="http://www.springframework.org/schema/mvc"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.springframework.org/schema/beans"
     xmlns:context="http://www.springframework.org/schema/context" xmlns:tx="http://www.springframework.org/schema/tx"
+    xmlns:jpa="http://www.springframework.org/schema/data/jpa"
     xsi:schemaLocation="http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd
         http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
         http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
-        http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.0.xsd">
+        http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.0.xsd
+        http://www.springframework.org/schema/data/jpa http://www.springframework.org/schema/data/jpa/spring-jpa-1.0.xsd">
  
     <!-- DispatcherServlet Context: defines this servlet's request-processing 
         infrastructure -->
  
     <!-- Enables the Spring MVC @Controller programming model -->
-    <annotation-driven />
+    <mvc:annotation-driven />
  
     <!-- Handles HTTP GET requests for /resources/** by efficiently serving 
         up static resources in the ${webappRoot}/resources directory -->
-    <resources mapping="/resources/**" location="/resources/" />
+    <mvc:resources mapping="/resources/**" location="/resources/" />
  
     <!-- Resolves views selected for rendering by @Controllers to .jsp resources 
         in the /WEB-INF/views directory -->
-    <beans:bean
+    <bean
         class="org.springframework.web.servlet.view.InternalResourceViewResolver">
-        <beans:property name="prefix" value="/WEB-INF/views/" />
-        <beans:property name="suffix" value=".jsp" />
-    </beans:bean>
+        <property name="prefix" value="/WEB-INF/views/" />
+        <property name="suffix" value=".jsp" />
+    </bean>
  
-    <beans:bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
-        <beans:property name="driverClassName" value="${DRIVER_BD}" />
-        <beans:property name="url" value="${URL_BD}" />
-        <beans:property name="username" value="${USUARIO_BD}" />
-        <beans:property name="password" value="${CLAVE_BD}" />
-    </beans:bean>
- 
-    <!-- Hibernate 4 SessionFactory Bean definition -->
-    <beans:bean id="hibernate4AnnotatedSessionFactory"
-        class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
-        <beans:property name="dataSource" ref="dataSource" />
-        <beans:property name="annotatedClasses">
-            <beans:list>
-                <beans:value>cl.pragma.smallshop.dao.beans.domain.Region</beans:value>
-            </beans:list>
-        </beans:property>
-        <beans:property name="mappingLocations">
-                <beans:value>classpath*:cl/pragma/smallshop/dao/beans/domain/*.hbm.xml</beans:value>
-        </beans:property>
-        <beans:property name="hibernateProperties">
-            <beans:props>
-                <beans:prop key="hibernate.dialect">${DIALECT}</beans:prop>
-                <beans:prop key="hibernate.show_sql">${SHOW_SQL}</beans:prop>
-                <beans:prop key="hibernate.hbm2ddl.auto">${HBM2DDL_AUTO}</beans:prop>
-            </beans:props>
-        </beans:property>
-    </beans:bean>
-        
-    <beans:bean id="regionDAO" class="cl.pragma.smallshop.dao.impl.RegionDAOImpl">
-        <beans:property name="sessionFactory" ref="hibernate4AnnotatedSessionFactory" />
-    </beans:bean>
+    <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+        <property name="driverClassName" value="${DRIVER_BD}" />
+        <property name="url" value="${URL_BD}" />
+        <property name="username" value="${USUARIO_BD}" />
+        <property name="password" value="${CLAVE_BD}" />
+    </bean>
     
-    <jpa:repositories base-package="cl.pragma.smallshop.repository"
+    <bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
+        <property name="entityManagerFactory" ref="emf"/>
+    </bean>
+ 
+    <bean id="emf" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+        <property name="dataSource" ref="dataSource" />
+        <property name="jpaVendorAdapter">
+            <bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter" />
+        </property>        
+        <!--property name="packagesToScan" value="cl.falabella.cmc.beans.domain"/-->
+        <property name="jpaProperties">
+            <props>
+                <prop key="hibernate.dialect">${DIALECT}</prop>
+                <prop key="hibernate.max_fetch_depth">${MAX_FETCH_DEPTH}</prop>
+                <prop key="hibernate.jdbc.fetch_size">${FETCH_SIZE}</prop>
+                <prop key="hibernate.jdbc.batch_size">${BATCH_SIZE}</prop>
+                <prop key="hibernate.show_sql">${SHOW_SQL}</prop>
+                <prop key="hibernate.hbm2ddl.auto">${HBM2DDL_AUTO}</prop>
+            </props>        
+        </property>
+    </bean>
+
+    <!-- Hibernate 4 SessionFactory Bean definition -->
+    <!--bean id="hibernate4AnnotatedSessionFactory"
+        class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
+        <property name="dataSource" ref="dataSource" />
+        <property name="annotatedClasses">
+            <list>
+                <value>cl.pragma.smallshop.dao.beans.domain.Region</value>
+            </list>
+        </property>
+        <property name="mappingLocations">
+                <value>classpath*:cl/pragma/smallshop/dao/beans/domain/*.hbm.xml</value>
+        </property>
+        <property name="hibernateProperties">
+            <props>
+                <prop key="hibernate.dialect">${DIALECT}</prop>
+                <prop key="hibernate.show_sql">${SHOW_SQL}</prop>
+                <prop key="hibernate.hbm2ddl.auto">${HBM2DDL_AUTO}</prop>
+            </props>
+        </property>
+    </bean-->
+        
+    <!--bean id="regionDAO" class="cl.pragma.smallshop.dao.impl.RegionDAOImpl">
+        <property name="sessionFactory" ref="sessionFactory" />
+    </bean-->
+    
+    <jpa:repositories base-package="cl.pragma.smallshop.repository" 
+                      entity-manager-factory-ref="emf"
+                      transaction-manager-ref="transactionManager" query-lookup-strategy="create-if-not-found"/>
+    
+    <!--jpa:repositories base-package="cl.pragma.smallshop.repository"
                       entity-manager-factory-ref="hibernate4AnnotatedSessionFactory"
                       transaction-manager-ref="transactionManager">
         <jpa:repository id="paisRepository" />
-    </jpa:repositories>
+    </jpa:repositories-->
 
-    <beans:bean id="regionService" class="cl.pragma.smallshop.service.impl.RegionServiceImpl">
-        <beans:property name="regionDAO" ref="regionDAO"></beans:property>
-    </beans:bean>
+    <bean id="regionService" class="cl.pragma.smallshop.service.impl.RegionServiceImpl"/>
+    <bean id="paisService" class="cl.pragma.smallshop.service.impl.PaisServiceImpl"/>
+    <!--bean id="regionService" class="cl.pragma.smallshop.service.impl.RegionServiceImpl">
+        <property name="regionRepo" ref="regionRepository"></property>
+    </bean>
     
-    <beans:bean id="paisService" class="cl.pragma.smallshop.service.impl.PaisServiceImpl">
-        <beans:property name="paisRepo" ref="paisRepository"></beans:property>
-    </beans:bean>
+    <bean id="paisService" class="cl.pragma.smallshop.service.impl.PaisServiceImpl">
+        <property name="paisRepo" ref="paisRepository"></property>
+    </bean-->
         
     <context:component-scan base-package="cl.pragma.smallshop" />
      
-    <tx:annotation-driven transaction-manager="transactionManager"/>
-     
-    <beans:bean id="transactionManager" class="org.springframework.orm.hibernate4.HibernateTransactionManager">
-        <beans:property name="sessionFactory" ref="hibernate4AnnotatedSessionFactory" />
-    </beans:bean>
- 
-</beans:beans>
+    <!--tx:annotation-driven transaction-manager="transactionManager"/-->
+
+    <!--bean class="org.springframework.orm.hibernate4.HibernateExceptionTranslator"/-->
+</beans>

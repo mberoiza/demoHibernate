@@ -7,7 +7,6 @@
 package cl.pragma.smallshop.service;
 
 import cl.pragma.smallshop.dao.beans.domain.Region;
-import java.util.List;
 
 /**
  *
@@ -17,7 +16,7 @@ public interface RegionService {
     
     public void addRegion(Region r);
     public void updateRegion(Region r);
-    public List<Region> listRegiones();
+    public Iterable<Region> listRegiones();
     public Region getRegion(Integer id);
     public void removeRegion(Integer id);
 }

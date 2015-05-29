@@ -29,7 +29,6 @@ INSERT INTO countries(country_id, country_name, region_id) VALUES('NG', 'Nigeria
 INSERT INTO countries(country_id, country_name, region_id) VALUES('AR', 'Argentina', 2);
 INSERT INTO countries(country_id, country_name, region_id) VALUES('BE', 'Belgium', 1);
 
-
 INSERT INTO locations(location_id, street_address, postal_code, city, state_province, country_id) VALUES(1000 , '1297 Via Cola di Rie', '00989', 'Roma', NULL, 'IT');
 INSERT INTO locations(location_id, street_address, postal_code, city, state_province, country_id) VALUES(1100 , '93091 Calle della Testa', '10934', 'Venice', NULL, 'IT');
 INSERT INTO locations(location_id, street_address, postal_code, city, state_province, country_id) VALUES(1200 , '2017 Shinjuku-ku', '1689', 'Tokyo', 'Tokyo Prefecture', 'JP');

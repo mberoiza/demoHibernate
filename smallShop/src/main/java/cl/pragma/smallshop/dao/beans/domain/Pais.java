@@ -6,15 +6,21 @@
  */
 package cl.pragma.smallshop.dao.beans.domain;
 
+import java.io.Serializable;
+
 /**
  *
  * @author mberoiza
  */
-public class Pais {
+//@Entity
+//@Table(name = "countries")
+public class Pais implements Serializable {
     private String id;
     private String nombre;
     private Region region;
 
+//    @Id
+//    @Column(name = "country_id", unique = true, nullable = false)
     public String getId() {
         return id;
     }
@@ -23,6 +29,7 @@ public class Pais {
         this.id = id;
     }
 
+//    @Column(name = "country_name")
     public String getNombre() {
         return nombre;
     }
@@ -31,6 +38,8 @@ public class Pais {
         this.nombre = nombre;
     }
 
+//    @OneToOne(cascade = CascadeType.ALL)
+//    @JoinColumn(name = "region_id", referencedColumnName = "region_id")
     public Region getRegion() {
         return region;
     }

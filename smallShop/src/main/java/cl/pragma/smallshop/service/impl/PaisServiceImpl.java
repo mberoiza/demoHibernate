@@ -9,17 +9,22 @@ package cl.pragma.smallshop.service.impl;
 import cl.pragma.smallshop.dao.beans.domain.Pais;
 import cl.pragma.smallshop.repository.PaisRepository;
 import cl.pragma.smallshop.service.PaisService;
-import java.util.List;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
  *
  * @author mberoiza
  */
+@Service
 public class PaisServiceImpl implements PaisService{
-    
+
     private PaisRepository paisRep;
 
+    @Autowired(required=true)
+    @Qualifier(value="paisRepository")
     public void setPaisRepository(PaisRepository paisRepo) {
         this.paisRep = paisRepo;
     }

@@ -6,52 +6,57 @@
  */
 package cl.pragma.smallshop.service.impl;
 
-import cl.pragma.smallshop.dao.RegionDAO;
 import cl.pragma.smallshop.dao.beans.domain.Region;
+import cl.pragma.smallshop.repository.RegionRepository;
 import cl.pragma.smallshop.service.RegionService;
-import java.util.List;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
  *
  * @author mberoiza
  */
+@Service
 public class RegionServiceImpl implements RegionService{
     
-    private RegionDAO regionDAO;
-
-    public void setRegionDAO(RegionDAO regionDAO) {
-        this.regionDAO = regionDAO;
+    private RegionRepository regionRepo;
+    
+    @Autowired(required=true)
+    @Qualifier(value="regionRepository")
+    public void setRegionRepository(RegionRepository regionRepo) {
+        this.regionRepo = regionRepo;
     }
     
     @Override
     @Transactional
     public void addRegion(Region r) {
-        this.regionDAO.addRegion(r);
+        this.regionRepo.save(r);
     }
 
     @Override
     @Transactional
     public void updateRegion(Region r) {
-        this.regionDAO.updateRegion(r);
+        this.regionRepo.save(r);
     }
 
     @Override
     @Transactional
-    public List<Region> listRegiones() {
-        return this.regionDAO.listRegiones();
+    public Iterable<Region> listRegiones() {
+        return this.regionRepo.findAll();
     }
 
     @Override
     @Transactional
     public Region getRegion(Integer id) {
-        return this.regionDAO.getRegion(id);
+        return this.regionRepo.findOne(id);
     }
 
     @Override
     @Transactional
     public void removeRegion(Integer id) {
-        this.regionDAO.removeRegion(id);
+        this.regionRepo.delete(id);
     }
     
 }

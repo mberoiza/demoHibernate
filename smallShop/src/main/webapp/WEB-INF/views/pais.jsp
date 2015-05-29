@@ -81,8 +81,8 @@
         <tr>
             <td>${pais.id}</td>
             <td>${pais.nombre}</td>
-            <td><a href="<c:url value='/edit/${pais.id}' />" >Editar</a></td>
-            <td><a href="<c:url value='/remove/${pais.id}' />" >Eliminar</a></td>
+            <td><a href="<c:url value='/pais/edit/${pais.id}' />" >Editar</a></td>
+            <td><a href="<c:url value='/pais/remove/${pais.id}' />" >Eliminar</a></td>
         </tr>
     </c:forEach>
     </table>

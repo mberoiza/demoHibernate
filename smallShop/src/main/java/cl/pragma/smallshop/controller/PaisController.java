@@ -52,14 +52,14 @@ public class PaisController {
          
     }
      
-    @RequestMapping("/remove/{id}")
+    @RequestMapping("/pais/remove/{id}")
     public String removePais(@PathVariable("id") String id){
          
         this.paisService.removePais(id);
         return "redirect:/paises";
     }
   
-    @RequestMapping("/edit/{id}")
+    @RequestMapping("/pais/edit/{id}")
     public String editPais(@PathVariable("id") String id, Model model){
         model.addAttribute("pais", this.paisService.getPais(id));
         model.addAttribute("listPaises", this.paisService.listPaises());

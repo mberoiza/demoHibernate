@@ -81,8 +81,8 @@
         <tr>
             <td>${region.id}</td>
             <td>${region.nombre}</td>
-            <td><a href="<c:url value='/edit/${region.id}' />" >Editar</a></td>
-            <td><a href="<c:url value='/remove/${region.id}' />" >Eliminar</a></td>
+            <td><a href="<c:url value='/region/edit/${region.id}' />" >Editar</a></td>
+            <td><a href="<c:url value='/region/remove/${region.id}' />" >Eliminar</a></td>
         </tr>
     </c:forEach>
     </table>

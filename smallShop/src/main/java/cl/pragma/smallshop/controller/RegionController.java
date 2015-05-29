@@ -52,14 +52,14 @@ public class RegionController {
          
     }
      
-    @RequestMapping("/remove/{id}")
+    @RequestMapping("/region/remove/{id}")
     public String removeRegion(@PathVariable("id") int id){
          
         this.regionService.removeRegion(id);
         return "redirect:/regiones";
     }
   
-    @RequestMapping("/edit/{id}")
+    @RequestMapping("/region/edit/{id}")
     public String editRegion(@PathVariable("id") int id, Model model){
         model.addAttribute("region", this.regionService.getRegion(id));
         model.addAttribute("listRegiones", this.regionService.listRegiones());

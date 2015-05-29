@@ -5,12 +5,11 @@
     <class name="cl.pragma.smallshop.dao.beans.domain.Pais" table="countries">
         <id name="id" type="string">
             <column name="country_id" />
-            <generator class="identity" />
         </id>
         <property name="nombre" type="string">
             <column name="country_name" not-null="true" unique="true" />
         </property>
         <one-to-one name="region" class="cl.pragma.smallshop.dao.beans.domain.Region"
-			cascade="save-update"></one-to-one>
+			constrained="true" outer-join="false"></one-to-one>
     </class>
 </hibernate-mapping>
